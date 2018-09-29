@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Recipes>
+		<Breakfast>
+				<Fried_Egg>
+					<Name>Fried_Egg					</Name>
+
+					<Ingredients>
+						<Ingredient>1 egg</Ingredient>
+						<Ingredient>2 tablespoons of butter</Ingredient>
+					</Ingredients>
+					<Instructions>
+						<Instruction>
+							<text>Melt 2 tablespoons of butter over high heat on a nonstick skillet. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+						<Instruction>
+							<text>Next break your egg into the pan and turn the heat down to low</text>
+						</Instruction>
+						<Instruction>
+							<text>Let cook until your egg whites are completly set and the yolk starts to thicken. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+					</Instructions>
+				</Fried_Egg>
+
+				<boiled_egg>
+					<Name>boiled_egg					</Name>
+
+					<Ingredients>
+						<Ingredient>1 egg</Ingredient>
+						<Ingredient>2 tablespoons of butter</Ingredient>
+					</Ingredients>
+					<Instructions>
+						<Instruction>
+							<text>Melt 2 tablespoons of butter over high heat on a nonstick skillet. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+						<Instruction>
+							<text>Next break your egg into the pan and turn the heat down to low</text>
+						</Instruction>
+						<Instruction>
+							<text>Let cook until your egg whites are completly set and the yolk starts to thicken. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+					</Instructions>
+				</boiled_egg>
+		</Breakfast>
+		<Lunch>
+		
+		<Fried_Egg>
+					<Name>sandwhich					</Name>
+
+					<Ingredients>
+						<Ingredient>1 egg</Ingredient>
+						<Ingredient>2 tablespoons of butter</Ingredient>
+					</Ingredients>
+					<Instructions>
+						<Instruction>
+							<text>Melt 2 tablespoons of butter over high heat on a nonstick skillet. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+						<Instruction>
+							<text>Next break your egg into the pan and turn the heat down to low</text>
+						</Instruction>
+						<Instruction>
+							<text>Let cook until your egg whites are completly set and the yolk starts to thicken. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+					</Instructions>
+				</Fried_Egg>
+
+				<boiled_egg>
+					<Name>boiled_egg					</Name>
+
+					<Ingredients>
+						<Ingredient>1 egg</Ingredient>
+						<Ingredient>2 tablespoons of butter</Ingredient>
+					</Ingredients>
+					<Instructions>
+						<Instruction>
+							<text>Melt 2 tablespoons of butter over high heat on a nonstick skillet. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+						<Instruction>
+							<text>Next break your egg into the pan and turn the heat down to low</text>
+						</Instruction>
+						<Instruction>
+							<text>Let cook until your egg whites are completly set and the yolk starts to thicken. This will take 1 minute.</text>
+							<time>1</time>
+						</Instruction>
+					</Instructions>
+				</boiled_egg>
+		</Lunch>
+</Recipes>

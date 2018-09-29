@@ -1,0 +1,4 @@
+ask-sdk-core
+bs4
+lxml
+et_xmlfile
