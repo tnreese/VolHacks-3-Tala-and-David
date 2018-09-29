@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import lxml
-import xmltodict
+
 
 def on_launch(launch_request, session):
     """ Called when the user launches the skill without specifying what they
@@ -13,22 +13,22 @@ def on_launch(launch_request, session):
     return get_welcome_response()
 
 
-#step through instructions
-def readIngredients(intent, session):
-    # with open('egg.xml') as fd:
-    #     doc = xmltodict.parse(fd.read())
+# fulfilled recipe
+def setRecipeFromList(intent, session):
+    recipeName = intent['slots']['AMAZON.Food']['value']
+    return(readInstructions(recipeName))
 
+<<<<<<< HEAD
+=======
+#step through instructions
+def readInstructions(recipe):
+    session_attributes = {}
+>>>>>>> parent of 8578ca0... first instruction
     card_title = ''
     #specifies the category
 
-    food = intent['slots']['SpecificFood']['value']
+    speech_output = intent['slots']['SpecificFood']['value']
 
-    ingredientsList = ["eggs", "bacon", "grease"]
-    speech_output = ""
-    for ingredient in ingredientsList:
-        speech_output += ingredient + " "
-
-    speech_output += " say I want to start cooking to begin"
     reprompt_text="retry that"
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
@@ -49,6 +49,7 @@ def readRecipesByCategory(intent, session):
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
 
+<<<<<<< HEAD
 def readInstructions(intent, session):
     card_title = ''
 
@@ -65,6 +66,9 @@ def readInstructions(intent, session):
 
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
+=======
+
+>>>>>>> parent of 8578ca0... first instruction
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
     return {
@@ -123,8 +127,6 @@ def on_intent(intent_request, session):
     if intent_name == "ChooseRecipeIntent":
         return readRecipesByCategory(intent, session)
     elif intent_name == "ChooseRecipe":
-        return readIngredients(intent, session)
-    elif intent_name == "StartInstructions":
         return readInstructions(intent, session)
     elif intent_name == "AddMissingToGroceryList":
         return get_welcome_response()

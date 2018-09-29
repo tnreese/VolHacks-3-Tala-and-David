@@ -1,4 +1,3 @@
-xmltodict
 ask-sdk-core
 bs4
 lxml
