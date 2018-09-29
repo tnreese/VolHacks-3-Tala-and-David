@@ -18,7 +18,6 @@ def readIngredients(intent, session):
     # with open('egg.xml') as fd:
     #     doc = xmltodict.parse(fd.read())
 
-    session_attributes = {}
     card_title = ''
     #specifies the category
 
@@ -37,7 +36,6 @@ def readIngredients(intent, session):
 
 def readRecipesByCategory(intent, session):
     print("reached readRecipes by Category")
-    session_attributes = {}
     card_title = ''
     # infile = open("egg.xml","r")
     # contents = infile.read()
@@ -52,21 +50,26 @@ def readRecipesByCategory(intent, session):
         card_title, speech_output, reprompt_text, False))
 
 def readInstructions(intent, session):
-    session_attributes = {}
     card_title = ''
 
-    instructionList = ["boil", "let sit", "salt" "serve"]
+    # i= session['attributes']['i']
 
-    speech_output = instructionList[0]
-    # session_attributes[0]++
-    reprompt_text=""
+    # instructionList = ["boil", "let sit", "salt" "serve"]
+
+    # speech_output = instructionList[i]
+    # i++
+    # reprompt_text=""
+    # session_attributes = {"i":i}
+
+    speech_output = "read instruct"
+
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
 
 def build_speechlet_response(title, output, reprompt_text, should_end_session):
     return {
         'outputSpeech': {
-            'type': 'PlainText',
+            'type': 'PlainText', 
             'text': output
         },
         'card': {
@@ -87,19 +90,20 @@ def build_speechlet_response(title, output, reprompt_text, should_end_session):
 def build_response(session_attributes, speechlet_response):
     return {
         'version': '1.0',
-        'sessionAttributes': session_attributes,
+        # 'sessionAttributes': session_attributes,
         'response': speechlet_response
     }
 
 
 def get_welcome_response():
-    session_attributes = {}
     card_title = "Welcome"
     speech_output = "What would you like to cook?"
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "What would you like to cook 2?"
     should_end_session = False
+    # session_attributes = {"i": 0}
+
     print("welcome response")
     return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
