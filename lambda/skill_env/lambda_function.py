@@ -20,10 +20,12 @@ def readIngredients(intent, session):
     #     doc = xmltodict.parse(fd.read())
 
     card_title = ''
-    session_attributes={}
     #specifies the category
 
     SpecificFood = intent['slots']['SpecificFood']['value']
+    print(SpecificFood)
+    session['attributes'] = {'SpecificFood':SpecificFood}
+
     ingredientsList =[]
     speech_output=''
     if SpecificFood == 'boiled egg':
@@ -42,7 +44,7 @@ def readIngredients(intent, session):
 
     speech_output += " say start cooking " + SpecificFood + " to begin"
     reprompt_text="retry that"
-    return build_response(session_attributes, build_speechlet_response(
+    return build_response(session['attributes'], build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
 
 
@@ -58,6 +60,11 @@ def readRecipesByCategory(intent, session):
     speech_output = ''
     if category == 'breakfast':
         foodCategory = ['fried egg', 'boiled egg', 'omelet']
+    elif category == 'lunch':
+        foodCategory = ['ham sandwich', "potato soup", "salad"]
+    elif category == 'dinner':
+        foodCategory = ["steak", "spaghetti","hamburger"]
+
     else:
         print('not breakfast')
 
@@ -71,10 +78,18 @@ def readRecipesByCategory(intent, session):
 def readInstructions(intent, session):
     card_title = ''
 
-    SpecificFood = intent['slots']['SpecificFood']['value']
     instructionList = []
     timingList = []
     speech_output=''
+    SpecificFood=''
+    spFood =session.get('attributes', {SpecificFood})
+    try:
+        SpecificFood = spFood.pop()
+    except:
+        SpecificFood= intent['slots']['SpecificFood']['value']
+
+    print(SpecificFood)
+
     if SpecificFood == 'boiled egg':
         instructionList =['Place your egg in a pot and cover with cold water by 1 inch. On medium-high heat, let the water boil.','Once boiled, cover and set aside','Drain and set aside in ice water. Peel your egg, slice in half, and season with salt and pepper. Enjoy']
         timingList=[10,8,5]
@@ -85,31 +100,36 @@ def readInstructions(intent, session):
         instructionList=['Crack your eggs into a mixing bowl and wisk til combined. Add salt and pepper to taste','Slice your cherry tomatoes in half and melt your two tablespoons of butter on medium-high heat.', 'Toss and fry the cherry tomato halves.', 'Turn the heat down to medium and sprinkle on your basil leaves. Add your eggs and move the pan around so the eggs are spread evenly.','Once the omelette starts to cook and firm up but the top is still raw, use a spatula to ease up the edges of the omelette. Fold it in half. When the omelette starts to turn golden brown on both sides, slide the omelette on to a plate. Eat immediately and enjoy!']
         timingList=[2,3,1,1,3]
     else:
+        print('unknown food')
         speech_output = 'unknown food'
-    
-    session_attributes=''
-    for i in range(0, len(instructionList)-1):
-        nextStep(intent, session, instructionList[i])
-        count = session.attributes['count']
-        count+=1
-        session,attributes['count'] = count
-        print(count)
-        time.sleep(timingList[i]) 
         
+    index =0
+    try:
+        i =session.get('attributes', {index})
+        index = i.pop()
+    except:
+        try:
+            index = i.pop(0)
+        except:
+            print('pop really sucks')
+            index = 0
+        print('pop sucks')
+
     reprompt_text=""
-    session_attributes = {"i":i}
 
-    speech_output = "instruction"
+    print(len(instructionList))
+    print(len(timingList))
+    
+    if(index<len(instructionList)):
+        speech_output = instructionList[index]
+        time.sleep(timingList[index])
+        index+=1
+    else:
+        speech_output = 'Recipe finished'
 
-    return build_response(session_attributes, build_speechlet_response(
-        card_title, speech_output, reprompt_text, False))
+    session['attributes'] = {'index':index, 'SpecificFood':SpecificFood}
 
-def nextStep(intent, session, instruction):
-    speech_output = instruction
-    session_attributes={}
-    card_title=''
-    reprompt_text=''
-    return build_response(session_attributes, build_speechlet_response(
+    return build_response(session['attributes'], build_speechlet_response(
         card_title, speech_output, reprompt_text, False))
 
 # def get_Recipe_Types(intent, session):
@@ -167,17 +187,16 @@ def build_response(session_attributes, speechlet_response):
 # def create_instrunction_length_attributes(index):
 #     return {"index": index}
 
-def get_welcome_response( session):
+def get_welcome_response( ):
     card_title = "Welcome"
     speech_output = "What would you like to cook?"
-    session.attributes['index']=0
     # If the user either does not reply to the welcome message or says something
     # that is not understood, they will be prompted again with this text.
     reprompt_text = "What would you like to cook 2?"
     should_end_session = False
-
+    session_attributes=''
     print("welcome response")
-    return build_response(session.attributes, build_speechlet_response(
+    return build_response(session_attributes, build_speechlet_response(
         card_title, speech_output, reprompt_text, should_end_session))
 
 
@@ -224,8 +243,10 @@ def lambda_handler(event, context):
     #     raise ValueError("Invalid Application ID")
 
     if event['session']['new']:
+        event['session']['attributes'] = {'index':0, 'SpecificFood':''}
         on_session_started({'requestId': event['request']['requestId']},
                            event['session'])
+        print(event['session']['attributes'])
 
     if event['request']['type'] == "LaunchRequest":
         return on_launch(event['request'], event['session'])
@@ -233,8 +254,6 @@ def lambda_handler(event, context):
         return on_intent(event['request'], event['session'])
     elif event['request']['type'] == "SessionEndedRequest":
         return on_session_ended(event['request'], event['session'])
-
-
 
 def on_session_started(session_started_request, session):
     """ Called when the session starts """
@@ -251,7 +270,7 @@ def on_launch(launch_request, session):
     print("on_launch requestId=" + launch_request['requestId'] +
           ", sessionId=" + session['sessionId'])
     # Dispatch to your skill's launch
-    return get_welcome_response(session)
+    return get_welcome_response()
 
 
 def on_session_ended(session_ended_request, session):
